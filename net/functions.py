@@ -1,5 +1,10 @@
 #!/usr/bin/python3
 
+"""
+# TODO:
+    Add more activation/cost functions
+"""
+
 import numpy as np
 
 
