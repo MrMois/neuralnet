@@ -128,8 +128,8 @@ def Mininet_test():
     w_h = np.ones((2, 2)) * 0.5
     w_o = np.ones((1, 3)) * 0.5
 
-    f_activation = Sigmoid()
-    f_cost = Quadratic()
+    f_activation = Sigmoid
+    f_cost = Quadratic
 
     layers = [Layer(f_activation, weights=w_h),
               OutputLayer(f_activation, f_cost, weights=w_o)]
@@ -151,8 +151,8 @@ def XOR_test():
     import random
     from functions import Sigmoid, Quadratic
 
-    f_activation = Sigmoid()
-    f_cost = Quadratic()
+    f_activation = Sigmoid
+    f_cost = Quadratic
     struct = [2, 4, 3, 1]
 
     net = Network(f_activation, f_cost, struct=struct)
