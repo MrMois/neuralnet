@@ -7,6 +7,8 @@
 
 
 import numpy as np
+import os  # for load/save
+import pickle  # for load/save
 from layer import Layer, OutputLayer
 
 
@@ -23,6 +25,49 @@ class Network:
         elif struct is not None:
             self.layers = Network.create_layers(f_activation,
                                                 f_cost, struct)
+
+    def save(self, name):
+
+        if not os.path.exists(name):
+            os.makedirs(name)
+
+        for index, layer in enumerate(self.layers):
+            path = name + "/l" + str(index) + ".npy"
+            np.save(path, layer.weights)
+
+        params = {
+            "f_activation": self.f_activation,
+            "f_cost": self.f_cost,
+            "no_of_layers": len(self.layers)
+        }
+
+        with open(name + "/p.pkl", "wb") as file:
+            pickle.dump(params, file, protocol=pickle.HIGHEST_PROTOCOL)
+
+    @staticmethod
+    def load(name):
+
+        with open(name + "/p.pkl", "wb") as file:
+            params = pickle.load(file)
+
+        layers = []
+
+        for index in range(params["no_of_layers"]-1):
+            path = name + "/l" + str(index) + ".npy"
+            weights = np.load(path)
+            layers.append(Layer(f_activation=params["f_activation"],
+                                weights=weights))
+
+        path = name + "/l" + str(params["no_of_layers"]-1) + ".npy"
+        weights = np.load(path)
+
+        layers.append(OutputLayer(f_activation=params["f_activation"],
+                                  f_cost=params["f_cost"],
+                                  weights=weights))
+
+        return Network(f_activation=params["f_activation"],
+                       f_cost=params["f_cost"],
+                       layers=layers)
 
     @staticmethod
     def create_layers(f_activation, f_cost, struct):
@@ -114,7 +159,9 @@ def XOR_test():
 
     learning_rate = 0.1
 
-    while True:
+    cost = [1]
+
+    while sum(cost) > 0.01:
 
         input = [random.getrandbits(1), random.getrandbits(1)]
 
@@ -126,6 +173,8 @@ def XOR_test():
         act, cost = net.train(input, target, learning_rate)
 
         print(cost)
+
+    net.save("XOR_test")
 
 
 if __name__ == "__main__":
