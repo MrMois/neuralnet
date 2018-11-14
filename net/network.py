@@ -47,7 +47,8 @@ class Network:
     @staticmethod
     def load(name):
 
-        with open(name + "/p.pkl", "wb") as file:
+        with open(name + "/p.pkl", "rb") as file:
+            print(file)
             params = pickle.load(file)
 
         layers = []
@@ -156,6 +157,7 @@ def XOR_test():
     struct = [2, 4, 3, 1]
 
     net = Network(f_activation, f_cost, struct=struct)
+    # net = Network.load("XOR_test")
 
     learning_rate = 0.1
 

@@ -3,7 +3,6 @@
 """
 # TODO:
     momentum
-    load/save
     debug other act.funcs gradient in backward
 """
 
