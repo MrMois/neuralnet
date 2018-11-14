@@ -8,9 +8,11 @@ import numpy as np
 
 class Sigmoid:
 
-    def __init__(self):
-        self.compute = lambda x: 1. / (1. + np.exp(-x))
-        self.gradient = lambda y: y * (1 - y)
+    def compute(x):
+        return 1. / (1. + np.exp(-x))
+
+    def gradient(y):
+        return y * (1 - y)
 
 
 # Cost functions
@@ -18,9 +20,11 @@ class Sigmoid:
 
 class Quadratic:
 
-    def __init__(self):
-        self.compute = lambda activation, target: 0.5*(activation - target)**2
-        self.gradient = lambda activation, target: activation - target
+    def compute(activation, target):
+        return 0.5*(activation - target)**2
+
+    def gradient(activation, target):
+        return activation - target
 
 
 # Testing only
@@ -28,7 +32,7 @@ class Quadratic:
 
 def main():
 
-    activation = Sigmoid()
+    activation = Sigmoid
     input = np.arange(4)
     a = activation.compute(input)
     print(a)
